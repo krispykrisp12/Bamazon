@@ -45,8 +45,17 @@ var connection = mysql.createConnection({
       {
         name: "selectedProduct",
         type: "input",
-        message: "Please select ID of the product you would like to buy?"
-      },{
+        message: "Please select ID of the product you would like to buy?",
+        validate: function (value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          else {
+            return false;
+          };
+        }
+      }
+      ,{
         name: "quantity",
         type: "input",
         message: "Select how many you would like to purchase?",
@@ -82,26 +91,4 @@ var connection = mysql.createConnection({
             }
         });
   });
-
-// ======================================================================
-// ======================================================================
-// ======================================================================
-  var StockItem = product.stock_quantity - parseInt(answer.quantity);
-  var updatedDatabase = product.product_sales + (answer.quantity * chosenProduct.price);
-
-  // check to make sure there is enough of that item in stock
-  if (stockItem >= 0) {
-    connection.query("UPDATE products SET stock_quantity= ?, product_sales=? WHERE id=?", [inStock, updatedGrossSales, answer.item], function (err, res) {
-      if (err) throw err;
-      else {
-        console.log("You successfully purchased " + answer.quantity + " " + product.product_name + "(s) for a total cost of $" + product.price * answer.quantity);
-        display();
-      }
-    });
-  }
-  else {
-    console.log("There is not enough of that item in stock.");
-    display();
-  };
-
 }
