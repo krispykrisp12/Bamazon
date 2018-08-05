@@ -73,10 +73,10 @@ var connection = mysql.createConnection({
       // var query = "SELECT item_id, product_name, department_name, price, stock_quantity FROM products WHERE id ?" ;
       connection.query("SELECT item_id, product_name, department_name, price, stock_quantity FROM products WHERE id " + answer.item_id, function(err, res) {
         var item = "";
-        for (var i = 0; i < res.length; i++) {
-          if (res[i].id === parseInt(answer.item_id)) {
+        for (var i = 0; i < answer.length; i++) {
+          if (res[i].item_id === parseInt(answer.item_id)) {
             item = res[i];
-          };
+          
           console.log(
             "ID: " +
               item.item +
@@ -88,6 +88,7 @@ var connection = mysql.createConnection({
               item.price +
               " | Quantity: " +
               item.stock_quantity);
+            };
             }
         });
   });
